@@ -66,8 +66,8 @@ test("passive input, resize while paused, removal, and no resurrection after des
 test("module defaults stay in sync; repeated starts dispose old controller", () => {
   let definition;
   const e = environment();
-  vm.runInNewContext(fs.readFileSync(require.resolve("../MMM-Neko.js"), "utf8"), {
-    Module: { register: (name, value) => { assert.equal(name, "MMM-Neko"); definition = value; } },
+  vm.runInNewContext(fs.readFileSync(require.resolve("../MMM-Neko-Extended.js"), "utf8"), {
+    Module: { register: (name, value) => { assert.equal(name, "MMM-Neko-Extended"); definition = value; } },
     NekoEngine: Engine, NekoController: class extends Controller { constructor(config, url) { super(config, url, e.env); } }
   });
   assert.deepEqual(JSON.parse(JSON.stringify(definition.defaults)), Engine.defaults);

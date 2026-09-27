@@ -1,13 +1,13 @@
 {
-  "name": "mmm-neko",
-  "version": "1.0.0",
+  "name": "mmm-neko-extended",
+  "version": "1.0.0.J0",
   "description": "A local, autonomous Neko cat for MagicMirror²",
-  "author": "Brian Wente",
+  "author": "Brian Wente, Jody Paul",
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/bwente/MMM-Neko.git"
+    "url": "https://github.com/jody/MMM-Neko-Extended.git"
   },
   "scripts": {
     "test": "node --test test/*.test.js",

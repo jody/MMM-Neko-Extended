@@ -1,6 +1,7 @@
 /* global Module, NekoEngine, NekoController */
 /* Copyright (c) 2026 Brian Wente. MIT license. */
-Module.register("MMM-Neko", {
+/* Copyright (c) 20206 Jody Paul. MIT license. */
+Module.register("MMM-Neko-Extended", {
   requiresVersion: "2.25.0",
   defaults: {
     character: "cat", mode: "wander", scale: 1, speed: 32, idleMin: 4, idleMax: 10,
@@ -8,7 +9,7 @@ Module.register("MMM-Neko", {
     inset: 16, reducedMotion: "auto"
   },
   getScripts() { return [this.file("lib/neko-engine.js"), this.file("lib/neko-controller.js")]; },
-  getStyles() { return [this.file("MMM-Neko.css")]; },
+  getStyles() { return [this.file("MMM-Neko-Extended.css")]; },
   start() {
     if (this.neko) this.neko.destroy();
     // Invalid settings fall back individually. No user-facing text is rendered.

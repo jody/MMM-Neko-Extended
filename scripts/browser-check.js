@@ -16,18 +16,18 @@ const { chromium } = require("playwright");
     page.on("request", (request) => requests.push(request.url()));
     await page.goto(process.env.MM_URL || "http://localhost:8097");
     await page.waitForSelector(".mmm-neko-cat");
-    await page.waitForFunction(() => typeof MM !== "undefined" && MM.getModules().some((m) => m.name === "MMM-Neko"));
+    await page.waitForFunction(() => typeof MM !== "undefined" && MM.getModules().some((m) => m.name === "MMM-Neko-Extended"));
     const character = process.env.EXPECT_CHARACTER || "cat";
     assert.ok(["cat", "dog", "tora"].includes(character));
     const sheet = character === "cat" ? "neko" : character;
-    assert.equal(await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko").config.character), character);
+    assert.equal(await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko-Extended").config.character), character);
     assert.ok((await page.locator(".mmm-neko-cat").evaluate((el) => el.style.backgroundImage)).includes(`assets/${sheet}.svg`));
     assert.equal(await page.evaluate(async (sheet) => {
-      const img = new Image(); img.src = `/modules/MMM-Neko/assets/${sheet}.svg`;
+      const img = new Image(); img.src = `/modules/MMM-Neko-Extended/assets/${sheet}.svg`;
       await img.decode(); return img.naturalWidth;
     }, sheet), 672);
     const state = () => page.evaluate(() => {
-      const m = MM.getModules().find((entry) => entry.name === "MMM-Neko");
+      const m = MM.getModules().find((entry) => entry.name === "MMM-Neko-Extended");
       return { x: m.neko.cat.x, y: m.neko.cat.y, age: m.neko.cat.age, state: m.neko.cat.state, mode: m.neko.cat.mode, timer: m.neko.timer, size: m.neko.cat.size };
     });
     const send = (name, payload) => page.evaluate(({ name, payload }) => {
@@ -35,7 +35,7 @@ const { chromium } = require("playwright");
     }, { name, payload });
     const initial = await state();
     await page.waitForFunction(({ x, y }) => {
-      const c = MM.getModules().find((m) => m.name === "MMM-Neko").neko.cat;
+      const c = MM.getModules().find((m) => m.name === "MMM-Neko-Extended").neko.cat;
       return Math.hypot(c.x - x, c.y - y) > 20;
     }, initial, { timeout: 20000 });
     assert.equal((await state()).mode, "wander");
@@ -43,15 +43,15 @@ const { chromium } = require("playwright");
     await page.screenshot({ path: screenshotPath });
     await send("NEKO_GO_TO_REGION", { region: "top_left" });
     const destination = await page.evaluate(() => {
-      const cat = MM.getModules().find((m) => m.name === "MMM-Neko").neko.cat;
+      const cat = MM.getModules().find((m) => m.name === "MMM-Neko-Extended").neko.cat;
       const rect = document.querySelector(".region.top.left").getBoundingClientRect();
       return { actual: cat.target, expected: cat.bound(rect.left + rect.width / 2 - cat.size / 2, rect.top + rect.height / 2 - cat.size / 2) };
     });
     assert.deepEqual(destination.actual, destination.expected);
-    await page.waitForFunction(() => MM.getModules().find((m) => m.name === "MMM-Neko").neko.cat.region === null, null, { timeout: 40000 });
+    await page.waitForFunction(() => MM.getModules().find((m) => m.name === "MMM-Neko-Extended").neko.cat.region === null, null, { timeout: 40000 });
     const arrived = await state(); assert.equal(arrived.x, destination.expected.x); assert.equal(arrived.y, destination.expected.y);
     await send("NEKO_GO_TO_REGION", { region: "top_right" });
-    assert.equal(await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko").neko.cat.target.x), 976);
+    assert.equal(await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko-Extended").neko.cat.target.x), 976);
     await send("NEKO_SET_MODE", { mode: "wander" });
     // Overlay hit testing: put a real button directly under the cat.
     await send("NEKO_PAUSE");
@@ -87,19 +87,19 @@ const { chromium } = require("playwright");
     assert.equal((await state()).age, reduced.age);
     await page.emulateMedia({ reducedMotion: "no-preference" }); await page.waitForTimeout(100);
     assert.notEqual((await state()).timer, null);
-    await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko").hide(0));
+    await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko-Extended").hide(0));
     await page.waitForTimeout(100); assert.equal((await state()).timer, null);
-    await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko").show(0));
+    await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko-Extended").show(0));
     await page.waitForTimeout(100); assert.notEqual((await state()).timer, null);
     await send("NEKO_PAUSE"); await page.setViewportSize({ width: 200, height: 100 });
     await page.waitForTimeout(100); const resized = await state();
     assert.ok(resized.x >= 0 && resized.x + resized.size <= 200 && resized.y >= 0 && resized.y + resized.size <= 100);
     assert.equal(await page.locator(".mmm-neko-overlay").getAttribute("aria-hidden"), "true");
     assert.equal(await page.locator(".mmm-neko-overlay [tabindex], .mmm-neko-overlay button").count(), 0);
-    await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko").stop());
+    await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko-Extended").stop());
     assert.equal(await page.locator(".mmm-neko-overlay").count(), 0);
     assert.deepEqual(errors, []);
-    assert.ok(requests.filter((url) => url.includes("MMM-Neko")).every((url) => new URL(url).hostname === "localhost" || new URL(url).hostname === "127.0.0.1"));
+    assert.ok(requests.filter((url) => url.includes("MMM-Neko-Extended")).every((url) => new URL(url).hostname === "localhost" || new URL(url).hostname === "127.0.0.1"));
     console.log("PASS: standard MagicMirror startup, autonomous movement, region travel and empty-region fallback, click-through mouse/touch/keyboard, notifications, reduced motion, hide/show, resize, teardown; no browser errors.");
     console.log(`Browser: ${browser.version()}; screenshot: ${screenshotPath}`);
   } finally { await browser.close(); }

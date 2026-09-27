@@ -18,3 +18,9 @@
 - Validated configuration and semantic show/hide/pause/resume/mode commands.
 - Pure behavior engine, unit/lifecycle tests, browser validation script, and CI checks.
 - Separate code license and public-domain sprite provenance.
+
+## 1.0.0.J0 - 2026-09-27
+
+- Added colorized Rowdy character
+  - Modified lib/neko-engine.js to add rowdy.png
+  - Modified scripts/build-sprites.js to ignore "rowdy" since it is already rendered

@@ -15,6 +15,7 @@ const read = (name, mask, character) => {
   return (x, y) => (bytes[y * 4 + Math.floor(x / 8)] >> (x % 8)) & 1;
 };
 for (const [character, output] of Object.entries(characters)) {
+  if (character === "rowdy") continue; /* JP: Avoid processing if already rendered. */
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${spriteNames.length * 32}" height="32" viewBox="0 0 ${spriteNames.length * 32} 32" shape-rendering="crispEdges">`;
   const paths = [[], []];
   spriteNames.forEach((name, frame) => {

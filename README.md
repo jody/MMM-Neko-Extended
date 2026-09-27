@@ -1,4 +1,4 @@
-# MMM-Neko
+# MMM-Neko-Extended
 
 A classic pixel-art Neko cat for an ordinary MagicMirror² installation. One cat
 wanders over the mirror, pauses, scratches, and sleeps. It needs no pointer,
@@ -17,8 +17,10 @@ Neko in action, wandering over the mirror while the other modules continue displ
 Neko takes a nap while the other modules continue displaying normally (scale=2, 64x64 sprite).
 
 Prefer a dog? Set `character: "dog"` to use the classic oneko dog sprites.
-Use `character: "tora"` for the classic striped cat. The original cat remains
-the default; only one pet is displayed at a time.
+Use `character: "tora"` for the classic striped cat.
+For a colorized Rowdy mascot, set `character: "rowdy"`
+The original cat remains the default; only one pet is displayed at a time.
+
 
 ## Installation
 
@@ -26,10 +28,10 @@ Clone this repository into your MagicMirror modules directory:
 
 ```sh
 cd ~/MagicMirror/modules
-git clone https://github.com/bwente/MMM-Neko.git
+git clone https://github.com/bwente/MMM-Neko-Extended.git
 ```
 
-Alternatively, copy this repository into `MagicMirror/modules/MMM-Neko` (the
+Alternatively, copy this repository into `MagicMirror/modules/MMM-Neko-Extended` (the
 folder name must match exactly).
 
 No `npm install`, build step, node helper, CDN, or runtime network request is
@@ -39,7 +41,7 @@ installation. The unit tests support Node 20 or later.
 ## Update
 
 ```sh
-cd ~/MagicMirror/modules/MMM-Neko
+cd ~/MagicMirror/modules/MMM-Neko-Extended
 git pull --ff-only
 ```
 
@@ -54,7 +56,7 @@ then restart MagicMirror:
 
 ```javascript
 {
-  module: "MMM-Neko",
+  module: "MMM-Neko-Extended",
   position: "fullscreen_above",
   config: {
     mode: "wander"
@@ -65,14 +67,14 @@ then restart MagicMirror:
 Configure only one instance. Do not set a module header. Keep your personal
 MagicMirror configuration outside this repository.
 
-To choose the dog, use:
+To choose Rowdy, use:
 
 ```javascript
 {
-  module: "MMM-Neko",
+  module: "MMM-Neko-Extended",
   position: "fullscreen_above",
   config: {
-    character: "dog",
+    character: "rowdy",
     scale: 2
   }
 },
@@ -224,10 +226,14 @@ physical touch hardware validation is claimed.
 
 ## License
 
-Original code: [MIT](LICENSE), copyright 2026 Brian Wente. Classic Neko pixels:
+Original code: [MIT](LICENSE), copyright 2026 Brian Wente.
+
+Classic Neko pixels:
 public domain, credited to Masayuki Koba and Tatsuya Kato; dog sprites contributed
 by John Lerchey. See
 [third-party provenance and licensing](THIRD_PARTY_NOTICES.md). Asset licensing
 was checked separately from JavaScript licensing.
+
+Modifications to allow color and add Rowdy character: [MIT](LICENSE), copyright 2026 Jody Paul.
 
 See [CHANGELOG.md](CHANGELOG.md) for changes.
